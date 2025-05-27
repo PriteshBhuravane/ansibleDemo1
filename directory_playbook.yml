@@ -1,0 +1,33 @@
+---
+- name: Create, verify, and delete /tmp/testdir on all managed nodes
+  hosts: all
+  become: yes
+  tasks:
+    - name: Create directory /tmp/testdir
+      file:
+        path: /tmp/testdir
+        state: directory
+        mode: '0755'
+
+    - name: Check if /tmp/testdir exists
+      stat:
+        path: /tmp/testdir
+      register: dir_stat
+
+    - name: Print directory existence result
+      debug:
+        msg: "Directory exists: {{ dir_stat.stat.exists }}"
+
+    - name: Delete directory /tmp/testdir
+      file:
+        path: /tmp/testdir
+        state: absent
+
+    - name: Verify deletion of /tmp/testdir
+      stat:
+        path: /tmp/testdir
+      register: deleted_stat
+
+    - name: Print directory deletion result
+      debug:
+        msg: "Directory exists after deletion: {{ deleted_stat.stat.exists }}"
