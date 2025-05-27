@@ -1,0 +1,28 @@
+---
+- name: Manage /tmp/testdir directory
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Create /tmp/testdir directory
+      file:
+        path: /tmp/testdir
+        state: directory
+        mode: '0755'
+
+    - name: Verify directory was created
+      stat:
+        path: /tmp/testdir
+      register: dir_status
+
+    - name: Print directory existence status
+      debug:
+        msg: "Directory /tmp/testdir exists: {{ dir_status.stat.exists }}"
+
+    - name: Delete the directory if it exists
+      file:
+        path: /tmp/testdir
+        state: absent
+      when: dir_status.stat.exists
+
+
