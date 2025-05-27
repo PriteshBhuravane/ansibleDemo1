@@ -1,0 +1,13 @@
+Run the Playbook
+ansible-playbook -i inventory directory_playbook.yml
+
+
+Verify Manually on a Managed Node
+ls -ld /tmp/testdir
+
+Use --inventory with an Inline Host
+ansible-playbook -i localhost, -c local directory_playbook.yml
+
+
+for testing 
+ansible-playbook directory_playbook.yml
